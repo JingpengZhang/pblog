@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // token
-    config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlcyI6WzIsMF0sImlhdCI6MTcxNTY5Mzk0NywiZXhwIjoxNzE1NzI5OTQ3fQ.E3B6PDkohmywGIjJBwLuzsMsaWsoNB6ROjZtqWJubFc`;
+    config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlcyI6WzIsMF0sImlhdCI6MTcxNTc4MDMwNiwiZXhwIjoxNzE1ODE2MzA2fQ.IirTe4gxdCwN_fvmD8McxnOhFqw5pCZm8OTFG7LK5JM`;
 
     return config;
   },
@@ -66,6 +66,27 @@ export const requestManager = {
       });
     }
     return axiosInstance.post(url, data);
+  },
+  get: <P extends object | undefined, T>(
+    url: string,
+    params?: P,
+  ): Promise<T> => {
+    let queryStr = "";
+
+    // 检查 params 是否存在并且是一个对象
+    if (params && typeof params === "object") {
+      // 遍历 params 对象的键值对，构建查询字符串
+      const queryParams = new URLSearchParams();
+      for (const key in params) {
+        if (Object.prototype.hasOwnProperty.call(params, key)) {
+          // @ts-ignore
+          queryParams.append(key, String(params[key]));
+        }
+      }
+      queryStr = `?${queryParams.toString()}`;
+    }
+
+    return axiosInstance.get(url + queryStr);
   },
 };
 

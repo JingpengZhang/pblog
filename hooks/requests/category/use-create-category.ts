@@ -1,7 +1,8 @@
-import { Category } from "@/app/lib/definitions";
 import API_URLS from "@/request/api-urls";
 import { requestManager } from "@/request/axios-instance";
 import { TBaseResponse } from "@/request/types";
+import { IconEntity } from "@/types/entity";
+import { Category } from "@/types/entity/category";
 import { useRequest } from "ahooks";
 import { Options } from "ahooks/lib/useRequest/src/types";
 
@@ -9,6 +10,7 @@ export interface ICreateCategoryParams extends TIconProperties {
   name: string;
   alias?: string;
   description?: string;
+  icon?: IconEntity;
 }
 
 type TCreateCategoryData = {

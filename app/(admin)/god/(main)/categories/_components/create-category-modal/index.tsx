@@ -13,16 +13,18 @@ import React, { useState } from "react";
 import { ModalProps } from "@/app/lib/interface";
 import { useMemoizedFn, useSetState } from "ahooks";
 import Flex from "@/components/Flex";
-import {
-  ICreateCategoryParams,
-  useCreateCategory,
-} from "@/hooks/requests/categories";
 import { useResetSetState } from "@/hooks/use-reset-set-state";
 import IconSelector from "@/components/IconSelector";
 import { IconEntity } from "@/types/entity";
 import Icon, { getIconItems } from "@/components/icon";
+import {
+  ICreateCategoryParams,
+  useCreateCategory,
+} from "@/hooks/requests/category/use-create-category";
 
-interface Props extends ModalProps {}
+interface Props extends ModalProps {
+  onSuccess?: () => void;
+}
 
 const CreateCategoryModal: React.FC<Props> = (props) => {
   // 当前选择的图标
@@ -37,11 +39,15 @@ const CreateCategoryModal: React.FC<Props> = (props) => {
   });
 
   const createCategory = useCreateCategory({
-    params: createParams.state,
+    params: {
+      ...createParams.state,
+      icon: selectedIcon,
+    },
     options: {
       onSuccess() {
         props.onClose();
         createParams.reset();
+        if (props.onSuccess) props.onSuccess();
       },
     },
   });
