@@ -43,7 +43,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <section className="h-screen w-screen flex flex-col">
       <div className="h-16 border-b flex-shrink-0 border-zinc-700 bg-zinc-900 flex items-center justify-between px-4"></div>
-      <div className="flex-grow flex">
+      <div className="flex-grow flex overflow-y-auto">
         <div className="h-full w-52 border-r bg-zinc-900 border-zinc-700 flex flex-col justify-between">
           <ul className="w-full p-3 text-sm text-zinc-300 select-none">
             {menus.list.map((item, index) => (
@@ -70,7 +70,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ))}
           </ul>
         </div>
-        <section className="flex-grow bg-zinc-800 flex flex-col px-6">
+        <section className="flex-grow bg-zinc-800 flex flex-col px-6 overflow-y-auto">
           <div className="text-white h-16 flex items-center flex-shrink-0">
             <Breadcrumbs>
               <BreadcrumbItem>
@@ -80,9 +80,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Breadcrumbs>
           </div>
 
-          <div className="bg-zinc-900 w-full rounded-md p-4">{children}</div>
+          <div className="bg-zinc-900 w-full rounded-md p-4 flex-grow overflow-y-auto">
+            {children}
+          </div>
 
-          <div className="flex items-center justify-center h-12 text-sm text-zinc-400">
+          <div className="flex items-center justify-center h-12 text-sm text-zinc-400 flex-shrink-0">
             PBLOG
           </div>
         </section>

@@ -27,7 +27,7 @@ axiosInstance.interceptors.response.use(
     const message = response.data.message;
 
     if (code === 200) {
-      toast.success(message);
+      // toast.success(message);
     }
 
     return response.data;
