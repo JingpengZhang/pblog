@@ -1,8 +1,8 @@
-import { IconProps } from "../ui/common/icon";
+import { IconEntity } from "@/types/entity";
 
 // 菜单项
 export type MenuItem = {
-  icon: IconProps;
+  icon: IconEntity;
   name: string;
   path: string;
   children?: MenuItem[];
@@ -10,10 +10,10 @@ export type MenuItem = {
 
 // 文章分类
 export type Category = {
-  id: string;
+  id: number;
   name: string;
   create_at: number;
   update_at: number;
   article_count: number;
-  icon: IconProps;
+  icon: IconEntity;
 };

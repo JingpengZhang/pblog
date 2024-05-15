@@ -1,8 +1,6 @@
 "use client";
 
 import { Category } from "@/app/lib/definitions";
-import AddCategoryModal from "@/app/ui/admin/add-category-modal";
-import Icon from "@/app/ui/common/icon";
 import {
   Button,
   Card,
@@ -11,114 +9,38 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import dayjs from "dayjs";
+import CreateCategoryModal from "./_components/create-category-modal";
+import Icon from "@/components/icon";
 
 export default function Page() {
   const categories: Category[] = [
-    {
-      id: "1",
-      name: "Vue",
-      icon: {
-        name: "vue",
-        color: "#00af7a",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
-
-    {
-      id: "2",
-      name: "React",
-      icon: {
-        name: "react",
-        color: "#00d2fb",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
-
-    {
-      id: "3",
-      name: "NestJS",
-      icon: {
-        name: "nestjs",
-        color: "#e0234e",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
-
-    {
-      id: "4",
-      name: "MySQL",
-      icon: {
-        name: "mysql",
-        color: "#00618a",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
-
-    {
-      id: "5",
-      name: "Docker",
-      icon: {
-        name: "docker",
-        color: "#2396ed",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
-
-    {
-      id: "6",
-      name: "Nginx",
-      icon: {
-        name: "nginx",
-        color: "#009639",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
-    {
-      id: "7",
-      name: "NodeJS",
-      icon: {
-        name: "nodejs",
-        color: "#539e43",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
-
-    {
-      id: "8",
-      name: "Webpack",
-      icon: {
-        name: "webpack",
-        color: "#1c78c0",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
-    {
-      id: "9",
-      name: "Java",
-      icon: {
-        name: "java",
-        color: "#e76f00",
-      },
-      create_at: 1714556254,
-      update_at: 1714556254,
-      article_count: 243,
-    },
+    // {
+    //   id: 1,
+    //   name: "Vue",
+    //   icon: {
+    //     name: "VueSolid",
+    //     color: "#00af7a",
+    //     size: 16,
+    //     strokeWidth: 1,
+    //   },
+    //   create_at: 1714556254,
+    //   update_at: 1714556254,
+    //   article_count: 243,
+    // },
+    //
+    // {
+    //   id: 2,
+    //   name: "React",
+    //   icon: {
+    //     name: "ReactSolid",
+    //     color: "#00d2fb",
+    //     size: 16,
+    //     strokeWidth: 1,
+    //   },
+    //   create_at: 1714556254,
+    //   update_at: 1714556254,
+    //   article_count: 243,
+    // },
   ];
 
   const categoryModal = useDisclosure();
@@ -132,10 +54,10 @@ export default function Page() {
           <Card
             isPressable
             onPress={categoryModal.onOpen}
-            className="w-full h-full border border-zinc-700 rounded text-zinc-400"
+            className="w-full h-full h-40 border border-zinc-700 rounded text-zinc-400"
           >
             <CardBody className="flex flex-col justify-center items-center">
-              <Icon name="plus" size={20} />
+              <Icon name="PlusSolid" size={20} />
               <span className="text-sm mt-5">点击创建分类</span>
             </CardBody>
           </Card>
@@ -173,7 +95,7 @@ export default function Page() {
         ))}
       </ul>
 
-      <AddCategoryModal {...categoryModal} />
+      <CreateCategoryModal {...categoryModal} />
     </>
   );
 }

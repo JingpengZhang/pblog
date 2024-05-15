@@ -5,3 +5,18 @@
 body {
   background-color: #141414;
 }
+
+html.dark {
+  .sketch-picker {
+    background-color: #171719 !important;
+    input {
+      box-shadow: #37373d 0px 0px 0px 1px inset !important;
+    }
+    label {
+      color: white !important;
+    }
+    .flexbox-fix:last-of-type {
+      border-top: 1px solid #37373d !important;
+    }
+  }
+}

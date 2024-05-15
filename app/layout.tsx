@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import "./globals.css";
 import { NextUIProvider } from "@nextui-org/react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,6 +19,7 @@ export default function RootLayout({
       <body className="flex flex-col min-h-screen">
         <NextUIProvider>
           <main className="flex-grow flex flex-col">{children}</main>
+          <ToastContainer theme="dark" />
         </NextUIProvider>
       </body>
     </html>

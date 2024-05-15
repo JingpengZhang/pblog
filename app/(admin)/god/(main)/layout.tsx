@@ -1,7 +1,7 @@
 "use client";
 
 import { MenuItem } from "@/app/lib/definitions";
-import Icon from "@/app/ui/common/icon";
+import Icon from "@/components/icon";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { useCreation, useDynamicList } from "ahooks";
 import Link from "next/link";
@@ -59,7 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 >
                   <div className="flex items-center h-full">
                     <div className="flex items-center h-full aspect-square justify-center">
-                      <Icon {...item.icon} type={item.icon.type || "outline"} />
+                      <Icon {...item.icon} />
                     </div>
 
                     <span>{item.name}</span>
@@ -74,7 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="text-white h-16 flex items-center flex-shrink-0">
             <Breadcrumbs>
               <BreadcrumbItem>
-                <Icon name="list-bullet" type="outline" />
+                <Icon name="ListBulletOutline" />
               </BreadcrumbItem>
               <BreadcrumbItem>{currentPageTitle}</BreadcrumbItem>
             </Breadcrumbs>
