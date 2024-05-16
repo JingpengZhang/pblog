@@ -1,6 +1,7 @@
 import axios from "axios";
 import { TResponseCode } from "./types";
 import { toast } from "react-toastify";
+import { Router } from "next/router";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000",
@@ -11,8 +12,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // token
-    config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAsImVtYWlsIjoiYWRtaW5AdGVzdC5jb20iLCJyb2xlcyI6WzIsMF0sImlhdCI6MTcxNTc4MDMwNiwiZXhwIjoxNzE1ODE2MzA2fQ.IirTe4gxdCwN_fvmD8McxnOhFqw5pCZm8OTFG7LK5JM`;
-
+    const token = localStorage.getItem("token") || "";
+    config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
   (err) => {
@@ -33,10 +34,18 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   (err) => {
+    const router = useRouter();
     const { code, error, message } = err.response.data;
 
     if (code === 400) {
       toast.error(message);
+    } else if (code === 403) {
+      toast.warn(message);
+    } else if (code === 401) {
+      // 登录失效
+
+      toast.error("登录失效");
+      Router.push("/god/login");
     }
 
     return Promise.reject(err);
