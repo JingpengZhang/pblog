@@ -4,14 +4,21 @@ import {
   Button,
   Card,
   CardBody,
+  Checkbox,
+  ScrollShadow,
   Spacer,
-  useDisclosure,
 } from "@nextui-org/react";
 import dayjs from "dayjs";
-import CreateCategoryModal from "./_components/create-category-modal";
 import Icon from "@/components/icon";
 import { useCategoryListScroll } from "@/hooks/requests/category/use-category-list-scroll";
 import { useRef } from "react";
+import ConfirmPop from "@/components/confirm-pop";
+import { useDeleteCategory } from "@/hooks/requests/category/use-delete-category";
+import Flex from "@/components/Flex";
+import { useSelections } from "ahooks";
+import { useCUModal } from "@/hooks/component/use-cu-modal";
+import { Category } from "@/types/entity/category";
+import CategoryCUModal from "./_components/category-cu-modal";
 
 export default function Page() {
   // 数据列表 dom ref
@@ -23,22 +30,71 @@ export default function Page() {
     target: ref,
   });
 
-  const categoryModal = useDisclosure();
+  const categoryCUModal = useCUModal<Category>({
+    onSuccess: () => {
+      reload();
+    },
+  });
+
+  // 删除分类
+  const { run: delRun, loading: delLoading } = useDeleteCategory({
+    onSuccess: () => {
+      reload();
+    },
+  });
+
+  // 多选
+  const selections = useSelections(data?.list || []);
 
   return (
     <>
-      <h1>分类管理</h1>
-
-      <div
-        ref={ref}
-        style={{ height: "calc(100% - 30px)" }}
-        className="overflow-y-auto pr-3"
+      <Flex
+        align="center"
+        justify="space-between"
+        className="h-16 flex-shrink-0 px-5"
       >
-        <ul className="grid grid-cols-5 mt-5 gap-4 overflow-y-auto pr-3">
+        <h1>分类管理</h1>
+
+        <Flex gap={20}>
+          <Checkbox
+            color="danger"
+            checked={selections.allSelected}
+            onValueChange={(v) =>
+              v ? selections.selectAll() : selections.unSelectAll()
+            }
+            isIndeterminate={selections.partiallySelected}
+          >
+            全选
+          </Checkbox>
+          <ConfirmPop
+            onConfirm={() =>
+              delRun({
+                data: selections.selected.map((v) => v.id),
+              })
+            }
+          >
+            <Button
+              size="sm"
+              radius="sm"
+              color="danger"
+              isDisabled={selections.selected.length === 0}
+            >
+              删除所选
+            </Button>
+          </ConfirmPop>
+        </Flex>
+      </Flex>
+
+      <ScrollShadow
+        ref={ref}
+        style={{ height: "calc(100% - 70px)" }}
+        className="overflow-y-auto pr-2 pl-5"
+      >
+        <ul className="grid md:grid-cols-3  xl:grid-cols-5 mt-5 gap-4 overflow-y-auto pr-3">
           <li>
             <Card
               isPressable
-              onPress={categoryModal.onOpen}
+              onPress={categoryCUModal.create}
               className="w-full h-40 border border-zinc-700 rounded text-zinc-400"
             >
               <CardBody className="flex flex-col justify-center items-center">
@@ -51,13 +107,13 @@ export default function Page() {
             data.list.map((item) => (
               <li
                 key={item.id}
-                className="border rounded h-40 p-3 border-zinc-700 flex flex-col justify-between relative"
+                className="group border rounded h-40 p-3 border-zinc-700 flex flex-col justify-between relative"
               >
                 <Icon className="absolute top-4 right-4" {...item.icon} />
                 <div>
                   <span>{item.name}</span>
                   <p className="text-xs text-zinc-400 mt-1">
-                    {dayjs(item.create_at).format("YYYY-MM-DD hh:mm:ss")}
+                    {dayjs(item.createdAt).format("YYYY-MM-DD HH:mm:ss")}
                   </p>
 
                   <ul className="grid grid-cols-2 text-xs mt-4">
@@ -70,27 +126,51 @@ export default function Page() {
                   </ul>
                 </div>
 
-                <div className="flex items-center justify-end w-full">
-                  <Button size="sm" radius="sm">
-                    删除
-                  </Button>
-                  <Spacer />
-                  <Button size="sm" radius="sm" color="primary">
-                    编辑
-                  </Button>
-                </div>
+                <Flex align="center" justify="space-between">
+                  <Flex align="center">
+                    <Checkbox
+                      onValueChange={(v) =>
+                        v ? selections.select(item) : selections.unSelect(item)
+                      }
+                      isSelected={selections.isSelected(item)}
+                      className={`${selections.isSelected(item) ? "" : "hidden group-hover:flex"}`}
+                      icon={<Icon name="MinusOutline" />}
+                      radius="full"
+                      color="danger"
+                    />
+                  </Flex>
+                  <Flex align="center">
+                    <ConfirmPop
+                      loading={delLoading}
+                      onConfirm={() => delRun({ data: item.id })}
+                    >
+                      <Button size="sm" radius="sm">
+                        删除
+                      </Button>
+                    </ConfirmPop>
+                    <Spacer />
+                    <Button
+                      onClick={() => categoryCUModal.update(item)}
+                      size="sm"
+                      radius="sm"
+                      color="primary"
+                    >
+                      编辑
+                    </Button>
+                  </Flex>
+                </Flex>
               </li>
             ))}
         </ul>
 
         {noMore && (
-          <div className="text-center mt-6 mb-3 text-xs text-stone-600">
+          <div className="text-center mt-6 mb-6 text-xs text-stone-600">
             没有了哦
           </div>
         )}
-      </div>
+      </ScrollShadow>
 
-      <CreateCategoryModal {...categoryModal} onSuccess={reload} />
+      <CategoryCUModal {...categoryCUModal} />
     </>
   );
 }

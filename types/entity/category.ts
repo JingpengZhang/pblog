@@ -4,8 +4,8 @@ import { IconEntity } from "./icon";
 export type Category = {
   id: number;
   name: string;
-  create_at: number;
-  update_at: number;
+  createdAt: number;
+  updatedAt: number;
   article_count: number;
   icon: IconEntity;
 };

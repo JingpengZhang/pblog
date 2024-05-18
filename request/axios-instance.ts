@@ -34,7 +34,6 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   (err) => {
-    const router = useRouter();
     const { code, error, message } = err.response.data;
 
     if (code === 400) {
@@ -45,7 +44,7 @@ axiosInstance.interceptors.response.use(
       // 登录失效
 
       toast.error("登录失效");
-      Router.push("/god/login");
+      window.location.pathname = "/god/login";
     }
 
     return Promise.reject(err);

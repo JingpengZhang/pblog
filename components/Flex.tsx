@@ -6,8 +6,9 @@ export interface FlexProps {
   style?: CSSProperties;
   align?: Property.AlignItems;
   justify?: Property.JustifyContent;
-  direction?: Property.FlexDirection;
   children?: React.ReactNode;
+  vertical?: boolean;
+  gap?: number;
 }
 
 const Flex: React.FC<FlexProps> = ({
@@ -15,17 +16,18 @@ const Flex: React.FC<FlexProps> = ({
   style,
   align,
   justify,
-  direction,
   children,
+  vertical = false,
+  gap = 0,
 }) => {
   return (
     <div
-      className={`flex ${className}`}
+      className={`flex ${vertical ? "flex-col" : ""} ${className}`}
       style={{
         ...style,
         alignItems: align,
         justifyContent: justify,
-        flexDirection: direction,
+        gap: gap,
       }}
     >
       {children}

@@ -2,10 +2,12 @@ import React from "react";
 import { SolidIconName, SolidIcons } from "./src/solid";
 import { IconEntity } from "@/types/entity";
 import { OutlineIconName, OutlineIcons } from "./src/outline";
+import { MiniIconName, MiniIcons } from "./src/mini";
+import { useCreation } from "ahooks";
 
 export type IconType = "solid" | "outline" | "mini" | "micro";
 
-export type IconName = SolidIconName | OutlineIconName;
+export type IconName = SolidIconName | OutlineIconName | MiniIconName;
 
 export interface IconProps {
   name: IconName;
@@ -18,6 +20,7 @@ export interface IconProps {
 export const icons = {
   ...SolidIcons,
   ...OutlineIcons,
+  ...MiniIcons,
 };
 
 export const getIconItems = (): IconEntity[] => {
@@ -40,11 +43,20 @@ const Icon: React.FC<IconProps> = ({
   strokeWidth = 1.5,
   className,
 }) => {
+  const viewSize = useCreation(() => {
+    if (name.endsWith("Micro")) {
+      return 16;
+    } else if (name.endsWith("Mini")) {
+      return 20;
+    } else {
+      return 24;
+    }
+  }, [name]);
   return (
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={name.endsWith("Micro") ? "0 0 16 16" : "0 0 24 24"}
+      viewBox={`0 0 ${viewSize} ${viewSize}`}
       strokeWidth={strokeWidth}
       style={{
         height: size,

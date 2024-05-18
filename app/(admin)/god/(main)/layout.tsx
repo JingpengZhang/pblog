@@ -14,21 +14,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const menus = useDynamicList<MenuItem>([
     {
       icon: {
-        name: "pencil",
+        name: "PencilOutline",
       },
       name: "写文章",
       path: "write",
     },
     {
       icon: {
-        name: "tag",
+        name: "TagOutline",
       },
       name: "分类管理",
       path: "categories",
     },
     {
       icon: {
-        name: "newspaper",
+        name: "NewsPaperOutline",
       },
       name: "文章管理",
       path: "articles",
@@ -80,7 +80,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Breadcrumbs>
           </div>
 
-          <div className="bg-zinc-900 w-full rounded-md p-4 flex-grow overflow-y-auto">
+          <div className="bg-zinc-900 w-full rounded-md flex-grow overflow-y-auto">
             {children}
           </div>
 
