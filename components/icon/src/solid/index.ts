@@ -1,5 +1,6 @@
 import { DockerSolid } from "./src/docker";
 import { EyeSolid } from "./src/eye-solid";
+import { FolderSolid } from "./src/folder-solid";
 import { HeartSolid } from "./src/heart-solid";
 import { JavaSolid } from "./src/java-solid";
 import { LinkSolid } from "./src/link-solid";
@@ -26,6 +27,7 @@ export const SolidIcons = {
   WebpackSolid,
   JavaSolid,
   PlusSolid,
+  FolderSolid,
 };
 
 export type SolidIconName = keyof typeof SolidIcons;

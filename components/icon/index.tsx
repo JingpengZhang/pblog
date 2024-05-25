@@ -43,20 +43,11 @@ const Icon: React.FC<IconProps> = ({
   strokeWidth = 1.5,
   className,
 }) => {
-  const viewSize = useCreation(() => {
-    if (name.endsWith("Micro")) {
-      return 16;
-    } else if (name.endsWith("Mini")) {
-      return 20;
-    } else {
-      return 24;
-    }
-  }, [name]);
   return (
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={`0 0 ${viewSize} ${viewSize}`}
+      viewBox={`0 0 ${name.endsWith("Micro") ? 16 : name.endsWith("Mini") ? 20 : 24} ${name.endsWith("Micro") ? 16 : name.endsWith("Mini") ? 20 : 24}`}
       strokeWidth={strokeWidth}
       style={{
         height: size,

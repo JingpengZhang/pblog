@@ -5,6 +5,15 @@ const API_URLS = {
   auth: {
     login: "/auth/sign_in",
   },
+  file: {
+    list: "/file/list",
+  },
+  folder: {
+    children: "/folder/get_children",
+    update: "/folder/update",
+    create: "/folder/create",
+    delete: "/folder/delete",
+  },
   category: {
     create: "/category/create",
     list: "/category/list",

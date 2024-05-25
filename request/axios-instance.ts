@@ -61,19 +61,8 @@ export const requestManager = {
    * @param params 参数对象
    * @param toFormData 是否转换为 FormData 对象，如果为 true，将循环 params 并构造 FormData 对象
    */
-  post: <T>(
-    url: string,
-    params: any,
-    toFormData: boolean = false,
-  ): Promise<T> => {
-    let data: object | FormData = params;
-    if (toFormData && params instanceof Object) {
-      data = new FormData();
-      Object.keys(params).forEach((k) => {
-        if (data instanceof FormData) data.append(k, params[k]);
-      });
-    }
-    return axiosInstance.post(url, data);
+  post: <P = any, T = any>(url: string, params: P): Promise<T> => {
+    return axiosInstance.post(url, params);
   },
   get: <P extends object | undefined, T>(
     url: string,

@@ -21,6 +21,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     },
     {
       icon: {
+        name: "FoldersLibraryOutline",
+      },
+      name: "文件管理",
+      path: "files",
+    },
+    {
+      icon: {
         name: "TagOutline",
       },
       name: "分类管理",
