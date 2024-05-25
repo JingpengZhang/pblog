@@ -1,3 +1,4 @@
+import { CloudUploadSolid } from "./src/cloud-upload-solid";
 import { DockerSolid } from "./src/docker";
 import { EyeSolid } from "./src/eye-solid";
 import { FolderSolid } from "./src/folder-solid";
@@ -28,6 +29,7 @@ export const SolidIcons = {
   JavaSolid,
   PlusSolid,
   FolderSolid,
+  CloudUploadSolid,
 };
 
 export type SolidIconName = keyof typeof SolidIcons;

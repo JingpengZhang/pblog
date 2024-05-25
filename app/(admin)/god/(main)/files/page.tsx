@@ -54,7 +54,7 @@ export default function Page() {
             <span>文件列表</span>
             <Flex align="center">
               <PButton mini size="sm" variant="light" radius="full">
-                <Icon name="FolderPlusOutline" />
+                <Icon name="CloudUploadSolid" />
               </PButton>
             </Flex>
           </Flex>
