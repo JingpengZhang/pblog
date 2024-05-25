@@ -15,6 +15,7 @@ export interface IconProps {
   size?: number;
   strokeWidth?: number;
   className?: string;
+  viewSize?: number;
 }
 
 export const icons = {
@@ -42,12 +43,13 @@ const Icon: React.FC<IconProps> = ({
   size = 16,
   strokeWidth = 1.5,
   className,
+  viewSize,
 }) => {
   return (
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={`0 0 ${name.endsWith("Micro") ? 16 : name.endsWith("Mini") ? 20 : 24} ${name.endsWith("Micro") ? 16 : name.endsWith("Mini") ? 20 : 24}`}
+      viewBox={`0 0 ${viewSize || name.endsWith("Micro") ? 16 : name.endsWith("Mini") ? 20 : 24} ${viewSize || name.endsWith("Micro") ? 16 : name.endsWith("Mini") ? 20 : 24}`}
       strokeWidth={strokeWidth}
       style={{
         height: size,

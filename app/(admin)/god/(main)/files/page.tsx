@@ -13,6 +13,9 @@ import FolderContainer, {
   useFolderContainer,
 } from "./_components/folder-container";
 import { useUpdate, useUpdateEffect } from "ahooks";
+import FileUploadModal, {
+  useFileUploader,
+} from "@/components/file-uploader-modal";
 
 export default function Page() {
   // 文件列表
@@ -35,6 +38,9 @@ export default function Page() {
   // 文件详情
   const fileDetailDrawer = useFileDetailDrawer();
 
+  // 文件上传弹窗
+  const fileUploader = useFileUploader();
+
   return (
     <>
       <Flex className="h-full w-full">
@@ -53,7 +59,13 @@ export default function Page() {
           >
             <span>文件列表</span>
             <Flex align="center">
-              <PButton mini size="sm" variant="light" radius="full">
+              <PButton
+                onClick={fileUploader.onOpen}
+                mini
+                size="sm"
+                variant="light"
+                radius="full"
+              >
                 <Icon name="CloudUploadSolid" />
               </PButton>
             </Flex>
@@ -94,6 +106,9 @@ export default function Page() {
 
       {/* 文件详情 */}
       <FileDetailDrawer {...fileDetailDrawer} />
+
+      {/* 上传文件 */}
+      <FileUploadModal {...fileUploader} />
     </>
   );
 }

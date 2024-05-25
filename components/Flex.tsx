@@ -9,6 +9,8 @@ export interface FlexProps {
   children?: React.ReactNode;
   vertical?: boolean;
   gap?: number;
+  onClick?: () => void;
+  key?: string | number;
 }
 
 const Flex: React.FC<FlexProps> = ({
@@ -19,9 +21,15 @@ const Flex: React.FC<FlexProps> = ({
   children,
   vertical = false,
   gap = 0,
+  onClick,
+  key,
 }) => {
   return (
     <div
+      key={key}
+      onClick={() => {
+        if (onClick) onClick();
+      }}
       className={`flex ${vertical ? "flex-col" : ""} ${className}`}
       style={{
         ...style,
