@@ -16,6 +16,7 @@ import { useUpdate, useUpdateEffect } from "ahooks";
 import FileUploadModal, {
   useFileUploader,
 } from "@/components/file-uploader-modal";
+import List from "@/components/list";
 
 export default function Page() {
   // 文件列表
@@ -77,16 +78,20 @@ export default function Page() {
             </Flex>
           </Flex>
 
-          <Flex gap={20} className="flex-shrink-0 px-6 ">
-            {listReq.data?.files.map((item) => (
+          {/* 文件列表 */}
+          <List
+            className="grid grid-cols-8 auto-rows-min flex-grow h-full  gap-x-6 mx-6 overflow-y-auto "
+            data={listReq.data?.files || []}
+            itemRender={(item) => (
               <PCard
                 key={item.id}
                 onClick={() => fileDetailDrawer.show(item)}
                 itemStyle
-                className="h-36 aspect-square"
+                className="w-full h-fit mb-6"
               >
-                <Flex vertical className="w-full h-full">
-                  <Flex className="flex-grow rounded overflow-hidden">
+                <div className="w-full h-fit">
+                  {/* 预览图 */}
+                  <Flex className="w-full aspect-square rounded overflow-hidden">
                     <Image
                       src={FileUtil.getFileRealURL(item.path)}
                       className="h-full w-full"
@@ -103,10 +108,10 @@ export default function Page() {
                       {item.filename}
                     </p>
                   </Flex>
-                </Flex>
+                </div>
               </PCard>
-            ))}
-          </Flex>
+            )}
+          />
         </Flex>
       </Flex>
 

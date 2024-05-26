@@ -51,7 +51,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <section className="h-screen w-screen flex flex-col">
       <div className="h-16 border-b flex-shrink-0 border-zinc-700 bg-zinc-900 flex items-center justify-between px-4"></div>
       <div className="flex-grow flex overflow-y-auto">
-        <div className="h-full w-52 border-r bg-zinc-900 border-zinc-700 flex flex-col justify-between">
+        <div className="h-full flex-shrink-0 w-52 border-r bg-zinc-900 border-zinc-700 flex flex-col justify-between">
           <ul className="w-full p-3 text-sm text-zinc-300 select-none">
             {menus.list.map((item, index) => (
               <li key={index} className="h-11">
