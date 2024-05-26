@@ -39,7 +39,13 @@ export default function Page() {
   const fileDetailDrawer = useFileDetailDrawer();
 
   // 文件上传弹窗
-  const fileUploader = useFileUploader();
+  const fileUploader = useFileUploader(params.id, () => {
+    // 重新请求文件列表
+    listReq.refresh();
+
+    // 关闭上传弹窗
+    fileUploader.onClose();
+  });
 
   return (
     <>

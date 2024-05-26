@@ -15,8 +15,13 @@ import List from "../list";
 import Flex from "../Flex";
 import Icon from "../icon";
 import Image from "next/image";
+import { Folder } from "@/types/entity/folder";
+import { useUploadFile } from "@/hooks/requests/file/use-upload-file";
+import { toast } from "react-toastify";
 
-type Props = {} & ReturnType<typeof useDisclosure>;
+type Props = { folderId: Folder["id"]; onSuccess: () => void } & ReturnType<
+  typeof useDisclosure
+>;
 
 type UploadFile = {
   preview: string; // 预览
@@ -70,6 +75,34 @@ const FileUploadModal: React.FC<Props> = (props) => {
         }
       },
     });
+  });
+
+  // 文件上传 hook
+  const { request: uploadRequest } = useUploadFile({
+    onSuccess: () => {
+      toast.success("文件上传成功");
+
+      // 重新请求文件列表,并关闭弹窗
+      props.onSuccess();
+    },
+  });
+
+  // 提交
+  const submit = useMemoizedFn(() => {
+    console.log(list, props.folderId);
+    // 构造 FormData
+    const formData = new FormData();
+
+    // 文件夹 id
+    formData.append("folder_id", props.folderId.toString());
+
+    // 加入文件
+    list.forEach((v, i) => {
+      formData.append(`files[${i}]`, v.file);
+    });
+
+    // 发起请求
+    uploadRequest.run(formData);
   });
 
   return (
@@ -238,7 +271,8 @@ const FileUploadModal: React.FC<Props> = (props) => {
                     size="sm"
                     variant="solid"
                     color="primary"
-                    onClick={selectFiles}
+                    onClick={submit}
+                    isLoading={uploadRequest.loading}
                   >
                     开始上传
                   </Button>
@@ -254,10 +288,15 @@ const FileUploadModal: React.FC<Props> = (props) => {
 
 export default FileUploadModal;
 
-export const useFileUploader = (): Props => {
+export const useFileUploader = (
+  folderId: Folder["id"],
+  onSuccess: () => void,
+): Props => {
   const disclosure = useDisclosure();
 
   return {
+    onSuccess,
+    folderId,
     ...disclosure,
   };
 };

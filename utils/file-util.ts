@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 
 class FileUtil {
   static getFileRealURL(storagePath: string) {
-    return "http://localhost:3000" + storagePath.substring(1);
+    return "http://localhost:3000" + storagePath;
   }
   // 选择文件
   static selectLocalFiles(

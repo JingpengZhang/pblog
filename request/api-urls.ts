@@ -7,6 +7,7 @@ const API_URLS = {
   },
   file: {
     list: "/file/list",
+    upload: "/file/upload",
   },
   folder: {
     children: "/folder/get_children",
