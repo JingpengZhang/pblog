@@ -95,7 +95,7 @@ export default function Page() {
                   <Flex className="w-full aspect-square rounded overflow-hidden">
                     <Image
                       src={FileUtil.getFileRealURL(item.path)}
-                      className="h-full w-full"
+                      className="h-full w-full object-contain"
                       width={300}
                       height={300}
                       alt="文件"
