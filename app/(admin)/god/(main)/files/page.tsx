@@ -17,6 +17,7 @@ import FileUploadModal, {
   useFileUploader,
 } from "@/components/file-uploader-modal";
 import List from "@/components/list";
+import { FileType } from "@/types/entity/file";
 
 export default function Page() {
   // 文件列表
@@ -93,13 +94,27 @@ export default function Page() {
                 <div className="w-full h-fit">
                   {/* 预览图 */}
                   <Flex className="w-full aspect-square rounded overflow-hidden">
-                    <Image
-                      src={FileUtil.getFileRealURL(item.path)}
-                      className="h-full w-full object-contain"
-                      width={300}
-                      height={300}
-                      alt="文件"
-                    />
+                    {/* 图片类 */}
+                    {item.type === FileType.image && (
+                      <Image
+                        src={FileUtil.getFileRealURL(item.path)}
+                        className="h-full w-full object-contain"
+                        width={300}
+                        height={300}
+                        alt="文件"
+                      />
+                    )}
+
+                    {/* 视频类 */}
+                    {item.type === FileType.video && item.extra.thumb && (
+                      <Image
+                        src={FileUtil.getFileRealURL(item.extra.thumb)}
+                        className="h-full w-full object-contain"
+                        width={300}
+                        height={300}
+                        alt="文件"
+                      />
+                    )}
                   </Flex>
                   <Flex
                     align="center"

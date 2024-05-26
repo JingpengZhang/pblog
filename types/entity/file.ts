@@ -1,5 +1,6 @@
 export enum FileType {
-  image = 1,
+  image = 1, // 图片类
+  video = 2, // 视频类
 }
 
 export type TFile = {
@@ -8,12 +9,13 @@ export type TFile = {
   updatedAt: string;
   path: string;
   filename: string;
-  type: FileType.image;
+  type: FileType;
   filesize: 12347;
   extension: string;
   extra: {
-    width: 206;
-    height: 105;
+    width?: number;
+    height?: number;
+    thumb?: string;
   };
   description: string;
   storagePath: string;
