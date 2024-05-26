@@ -82,6 +82,7 @@ export default function Page() {
           <List
             className="grid grid-cols-8 auto-rows-min flex-grow h-full  gap-x-6 mx-6 overflow-y-auto "
             data={listReq.data?.files || []}
+            empty="没有文件的文件夹还不如删了 😄 ~"
             itemRender={(item) => (
               <PCard
                 key={item.id}
