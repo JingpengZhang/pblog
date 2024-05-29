@@ -29,6 +29,10 @@ class FileUtil {
     };
     input.click();
   }
+  // 判断文件是否为图片类型
+  static isPicture(file: File) {
+    return ["image/png", "image/jpeg", "image/gif"].indexOf(file.type) !== -1;
+  }
 }
 
 export default FileUtil;

@@ -13,26 +13,25 @@ import { useDynamicList, useMemoizedFn } from "ahooks";
 import React from "react";
 import List from "../list";
 import Flex from "../Flex";
-import Icon from "../icon";
-import Image from "next/image";
 import { Folder } from "@/types/entity/folder";
 import { useUploadFile } from "@/hooks/requests/file/use-upload-file";
 import { toast } from "react-toastify";
+import { nanoid } from "nanoid";
+import ToUploadFileItem, { MemoToUploadFileItem } from "./to-upload-file-item";
 
 type Props = { folderId: Folder["id"]; onSuccess: () => void } & ReturnType<
   typeof useDisclosure
 >;
 
 type UploadFile = {
-  preview: string; // 预览
+  id: string;
   file: File; // 文件
 };
 
 const FileUploadModal: React.FC<Props> = (props) => {
   // 已选文件列表
-  const { list, push, getKey, remove, resetList } = useDynamicList<UploadFile>(
-    [],
-  );
+  const { list, push, getKey, remove, resetList, replace } =
+    useDynamicList<UploadFile>([]);
 
   // 选择文件
   const selectFiles = useMemoizedFn(() => {
@@ -50,27 +49,12 @@ const FileUploadModal: React.FC<Props> = (props) => {
 
             console.log(file.type);
 
-            let preview = "";
+            const id = nanoid(4);
 
-            // 如果是图片，设置预览图
-            if (
-              ["image/png", "image/jpeg", "image/gif"].indexOf(file.type) !== -1
-            ) {
-              const fileReader = new FileReader();
-              fileReader.onload = function () {
-                preview = this.result as string;
-                push({
-                  file,
-                  preview,
-                });
-              };
-              fileReader.readAsDataURL(file);
-            } else {
-              push({
-                file,
-                preview,
-              });
-            }
+            push({
+              id,
+              file,
+            });
           }
         }
       },
@@ -124,120 +108,11 @@ const FileUploadModal: React.FC<Props> = (props) => {
                 className="grid grid-cols-6 gap-x-4 gap-y-4"
                 data={list}
                 itemRender={(item, index) => (
-                  <Flex
-                    align="center"
-                    justify="center"
-                    vertical
-                    key={getKey(index)}
-                    className="w-full  relative group overflow-hidden"
-                  >
-                    <Flex
-                      align="center"
-                      justify="center"
-                      className="w-full aspect-square rounded overflow-hidden bg-zinc-800 relative"
-                    >
-                      {item.preview ? (
-                        <Image
-                          src={item.preview}
-                          alt="预览"
-                          width={300}
-                          height={300}
-                          className="w-full h-fill object-cover"
-                        />
-                      ) : (
-                        <>
-                          {["audio/mpeg"].indexOf(item.file.type) !== -1 && (
-                            <Icon
-                              name="FileTypeMp3Outline"
-                              viewSize={16}
-                              size={36}
-                              color="#8452ee"
-                            />
-                          )}
-
-                          {["video/mp4"].indexOf(item.file.type) !== -1 && (
-                            <Icon
-                              name="FileTypeMp4Outline"
-                              viewSize={16}
-                              size={36}
-                              color="#355dc8"
-                            />
-                          )}
-
-                          {["application/zip", "application/x-rar"].indexOf(
-                            item.file.type,
-                          ) !== -1 && (
-                            <Icon
-                              name="FolderZipSolid"
-                              size={44}
-                              color="#efa037"
-                            />
-                          )}
-
-                          {[
-                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                          ].indexOf(item.file.type) !== -1 && (
-                            <Icon
-                              name="FileTypeDocSolid"
-                              viewSize={16}
-                              size={36}
-                              color="#00539F"
-                            />
-                          )}
-
-                          {["application/pdf"].indexOf(item.file.type) !==
-                            -1 && (
-                            <Icon
-                              name="FileTypePDFSolid"
-                              viewSize={16}
-                              size={36}
-                              color="#FF131E"
-                            />
-                          )}
-
-                          {["text/plain"].indexOf(item.file.type) !== -1 && (
-                            <Icon
-                              name="FileTypeTXTSolid"
-                              viewSize={16}
-                              size={36}
-                              color="#A0B7B7"
-                            />
-                          )}
-
-                          {[
-                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                          ].indexOf(item.file.type) !== -1 && (
-                            <Icon
-                              name="FileTypeXLSXSolid"
-                              viewSize={16}
-                              size={36}
-                              color="#00BD50"
-                            />
-                          )}
-                        </>
-                      )}
-
-                      {/* 遮罩层 */}
-                      <Flex
-                        align="center"
-                        justify="center"
-                        className="w-full h-full absolute -top-full group-hover:top-0 left-0 bg-[rgba(0,0,0,0.6)]"
-                      >
-                        <Flex
-                          className="text-white hover:text-red-600 cursor-pointer"
-                          align="center"
-                          justify="center"
-                          onClick={() => remove(index)}
-                        >
-                          <Icon name="XCircleOutline" size={20} />
-                        </Flex>
-                      </Flex>
-                    </Flex>
-
-                    <p className="text-center mt-2 px-1 text-xs text-ellipsis whitespace-nowrap overflow-hidden w-full">
-                      {item.file.name}
-                    </p>
-                  </Flex>
+                  <MemoToUploadFileItem
+                    {...item}
+                    key={item.id}
+                    onDelete={() => remove(index)}
+                  />
                 )}
               />
             </ModalBody>
